@@ -8,12 +8,22 @@ import {
   type UrlMatchResult,
 } from '@angular/router';
 
-import {AboutComponent, AbcComponent, PathNotFoundComponent, MessagesComponent} from './layout';
+import {
+  AboutComponent,
+  AbcComponent,
+  PathNotFoundComponent,
+  MessagesComponent,
+  LoginComponent,
+} from './layout';
 
 const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     component: AbcComponent,
