@@ -4,10 +4,11 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {LayoutModule} from './layout/layout.module';
-import {Router} from '@angular/router';
+import {Router, TitleStrategy} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {TasksModule} from './tasks/tasks.module';
 import {SpinnerComponent} from './widgets';
+import {PageTitleStrategy} from './core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,7 @@ import {SpinnerComponent} from './widgets';
     // MUST BE LAST
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [{provide: TitleStrategy, useClass: PageTitleStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {
