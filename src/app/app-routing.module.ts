@@ -38,7 +38,14 @@ const routes: Routes = [
     component: MessagesComponent,
     outlet: 'messages',
   },
-
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+  },
   {
     path: '',
     redirectTo: '/home',

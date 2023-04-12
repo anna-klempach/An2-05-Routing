@@ -7,7 +7,7 @@ import {userResolver} from './resolvers';
 
 const routes: Routes = [
   {
-    path: 'users',
+    path: '',
     component: UsersComponent,
     children: [
       {

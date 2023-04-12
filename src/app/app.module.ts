@@ -7,8 +7,6 @@ import {LayoutModule} from './layout/layout.module';
 import {Router} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {TasksModule} from './tasks/tasks.module';
-import {UsersModule} from './users/users.module';
-import {AdminModule} from './admin/admin.module';
 import {SpinnerComponent} from './widgets';
 
 @NgModule({
@@ -18,8 +16,6 @@ import {SpinnerComponent} from './widgets';
     FormsModule,
     LayoutModule,
     TasksModule,
-    UsersModule,
-    AdminModule,
     SpinnerComponent,
     // MUST BE LAST
     AppRoutingModule,
