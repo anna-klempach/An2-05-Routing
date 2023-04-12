@@ -15,6 +15,7 @@ import {
   MessagesComponent,
   LoginComponent,
 } from './layout';
+import {canMatchAuthGuard} from './core';
 
 const routes: Routes = [
   {
@@ -40,7 +41,13 @@ const routes: Routes = [
   },
   {
     path: 'admin',
+    canMatch: [canMatchAuthGuard],
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'admin',
+    redirectTo: '/login',
+    pathMatch: 'full',
   },
   {
     path: 'users',
