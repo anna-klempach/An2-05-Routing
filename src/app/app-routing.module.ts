@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {
-  Routes,
+  type Routes,
+  type ExtraOptions,
+  PreloadAllModules,
   RouterModule,
   type UrlSegment,
   type UrlSegmentGroup,
@@ -16,6 +18,12 @@ import {
   LoginComponent,
 } from './layout';
 import {canMatchAuthGuard} from './core';
+
+const extraOptions: ExtraOptions = {
+  preloadingStrategy: PreloadAllModules,
+  enableTracing: true, // Makes the router log all its internal events to the console.
+  useHash: false,
+};
 
 const routes: Routes = [
   {
@@ -67,7 +75,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, extraOptions)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
