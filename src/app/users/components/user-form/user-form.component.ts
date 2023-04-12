@@ -1,6 +1,8 @@
 import {Component, type OnInit, type OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {type Subscription} from 'rxjs';
+import {ActivatedRoute, Router, UrlTree} from '@angular/router';
+import type {Observable, Subscription} from 'rxjs';
+import {DialogService} from './../../../core';
+import type {CanComponentDeactivate} from './../../../core';
 
 import {UserModel} from './../../models/user.model';
 import {UserArrayService} from './../../services/user-array.service';
@@ -9,17 +11,37 @@ import {UserArrayService} from './../../services/user-array.service';
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css'],
 })
-export class UserFormComponent implements OnInit, OnDestroy {
+export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   user!: UserModel;
   originalUser!: UserModel;
+  private onGoBackClick: boolean = false;
 
   private sub!: Subscription;
 
   constructor(
     private router: Router,
     private userArrayService: UserArrayService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogService: DialogService
   ) {}
+  canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (this.onGoBackClick) return true;
+
+    const flags = (Object.keys(this.originalUser) as (keyof UserModel)[]).map((key) => {
+      if (this.originalUser[key] === this.user[key]) {
+        return true;
+      }
+      return false;
+    });
+
+    if (flags.every((el) => el)) {
+      return true;
+    }
+
+    // Otherwise ask the user with the dialog service and return its
+    // promise which resolves to true or false when the user decides
+    return this.dialogService.confirm('Discard changes?');
+  }
 
   ngOnInit(): void {
     this.user = new UserModel(null, '', '');
@@ -54,6 +76,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   onGoBack(): void {
+    this.onGoBackClick = true;
     this.router.navigate(['./../../'], {relativeTo: this.route});
   }
 }
