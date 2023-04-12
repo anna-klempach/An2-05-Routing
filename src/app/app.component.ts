@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import type {RouterOutlet} from '@angular/router';
-import {MessagesService} from './core';
+import {CustomPreloadingStrategyService, MessagesService} from './core';
 import {Router} from '@angular/router';
 import {SpinnerService} from './widgets';
 
@@ -13,8 +13,14 @@ export class AppComponent {
   constructor(
     public spinnerService: SpinnerService,
     public messagesService: MessagesService,
-    private router: Router
+    private router: Router,
+    private preloadingStrategy: CustomPreloadingStrategyService
   ) {}
+
+  ngOnInit(): void {
+    console.log(`Preloading Modules: `, this.preloadingStrategy.preloadedModules);
+  }
+
   onActivate($event: any, routerOutlet: RouterOutlet): void {
     console.log('Activated Component', $event, routerOutlet);
   }

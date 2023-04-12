@@ -17,10 +17,11 @@ import {
   MessagesComponent,
   LoginComponent,
 } from './layout';
-import {canMatchAuthGuard} from './core';
+import {canMatchAuthGuard, CustomPreloadingStrategyService} from './core';
 
 const extraOptions: ExtraOptions = {
-  preloadingStrategy: PreloadAllModules,
+  preloadingStrategy: CustomPreloadingStrategyService,
+  //preloadingStrategy: PreloadAllModules,
   enableTracing: true, // Makes the router log all its internal events to the console.
   useHash: false,
 };
@@ -51,6 +52,7 @@ const routes: Routes = [
     path: 'admin',
     canMatch: [canMatchAuthGuard],
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+    data: {preload: false},
   },
   {
     path: 'admin',
@@ -60,6 +62,7 @@ const routes: Routes = [
   {
     path: 'users',
     loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+    data: {preload: true},
   },
   {
     path: '',
