@@ -9,6 +9,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {TasksModule} from './tasks/tasks.module';
 import {UsersModule} from './users/users.module';
 import {AdminModule} from './admin/admin.module';
+import {SpinnerComponent} from './widgets';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import {AdminModule} from './admin/admin.module';
     TasksModule,
     UsersModule,
     AdminModule,
+    SpinnerComponent,
     // MUST BE LAST
     AppRoutingModule,
   ],
