@@ -4,6 +4,7 @@ import {CustomPreloadingStrategyService, MessagesService} from './core';
 import {Router} from '@angular/router';
 import {SpinnerService} from './widgets';
 import {type Subscription, filter} from 'rxjs';
+import {Meta} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
     public spinnerService: SpinnerService,
     public messagesService: MessagesService,
     private router: Router,
-    private preloadingStrategy: CustomPreloadingStrategyService
+    private preloadingStrategy: CustomPreloadingStrategyService,
+    private metaService: Meta
   ) {}
 
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class AppComponent {
 
   onActivate($event: any, routerOutlet: RouterOutlet): void {
     console.log('Activated Component', $event, routerOutlet);
+    this.metaService.addTags(routerOutlet.activatedRouteData['meta']);
   }
 
   onDeactivate($event: any, routerOutlet: RouterOutlet): void {
