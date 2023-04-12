@@ -30,10 +30,12 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+    title: 'About',
   },
   {
     path: 'login',
     component: LoginComponent,
+    title: 'Login',
   },
   {
     component: AbcComponent,
@@ -53,6 +55,7 @@ const routes: Routes = [
     canMatch: [canMatchAuthGuard],
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
     data: {preload: false},
+    title: 'Admin',
   },
   {
     path: 'admin',
@@ -63,6 +66,7 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
     data: {preload: true},
+    title: 'Users',
   },
   {
     path: '',
@@ -74,6 +78,7 @@ const routes: Routes = [
     // doesn't match any paths for routes defined in our configuration
     path: '**',
     component: PathNotFoundComponent,
+    title: 'Page Not Found',
   },
 ];
 
