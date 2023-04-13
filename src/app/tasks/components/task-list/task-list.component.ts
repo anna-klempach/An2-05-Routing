@@ -1,6 +1,6 @@
 import {Component, type OnInit} from '@angular/core';
 
-import {TaskArrayService} from './../../services/task-array.service';
+import {TaskArrayService, TaskPromiseService} from './../../services';
 import type {TaskModel} from './../../models/task.model';
 import {Router} from '@angular/router';
 
@@ -11,10 +11,15 @@ import {Router} from '@angular/router';
 export class TaskListComponent implements OnInit {
   tasks!: Promise<Array<TaskModel>>;
 
-  constructor(private router: Router, private taskArrayService: TaskArrayService) {}
+  constructor(
+    private taskPromiseService: TaskPromiseService,
+    private router: Router,
+    private taskArrayService: TaskArrayService
+  ) {}
 
   ngOnInit(): void {
-    this.tasks = this.taskArrayService.getTasks();
+    //this.tasks = this.taskArrayService.getTasks();
+    this.tasks = this.taskPromiseService.getTasks();
   }
 
   onCompleteTask(task: TaskModel): void {
