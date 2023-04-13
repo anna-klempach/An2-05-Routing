@@ -8,3 +8,4 @@ export * from './guards/can-deactivate.guard';
 export * from './guards/can-match-auth.guard';
 export * from './services/custom-preloading-strategy.service';
 export * from './services/page-title-strategy.service';
+export * from './decorators';
