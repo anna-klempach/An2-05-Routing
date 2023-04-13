@@ -1,10 +1,10 @@
 import {Component, type OnInit} from '@angular/core';
-import {type Observable, EMPTY, catchError, switchMap} from 'rxjs';
+import {type Observable, EMPTY, switchMap} from 'rxjs';
 import type {ParamMap} from '@angular/router';
 
-import {UserArrayService} from './../../services/user-array.service';
 import {type UserModel} from './../../models/user.model';
 import {Router, ActivatedRoute} from '@angular/router';
+import {UserObservableService} from '../../services';
 
 @Component({
   templateUrl: './user-list.component.html',
@@ -15,18 +15,13 @@ export class UserListComponent implements OnInit {
   private editedUser!: UserModel;
 
   constructor(
-    private userArrayService: UserArrayService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userObservableService: UserObservableService
   ) {}
 
   ngOnInit(): void {
-    this.users$ = this.userArrayService.users$.pipe(
-      catchError((err) => {
-        console.log(err);
-        return EMPTY;
-      })
-    );
+    this.users$ = this.userObservableService.getUsers();
     const observer = {
       next: (user: UserModel) => {
         this.editedUser = {...user};
@@ -36,7 +31,11 @@ export class UserListComponent implements OnInit {
     };
     this.route.paramMap
       .pipe(
-        switchMap((params: ParamMap) => this.userArrayService.getUser(params.get('editedUserID')!))
+        switchMap((params: ParamMap) => {
+          return params.has('editedUserID')
+            ? this.userObservableService.getUser(params.get('editedUserID')!)
+            : EMPTY;
+        })
       )
       .subscribe(observer);
   }
@@ -57,5 +56,9 @@ export class UserListComponent implements OnInit {
     // or
     const link = ['edit', id];
     this.router.navigate(link, {relativeTo: this.route});
+  }
+
+  onDeleteUser(user: UserModel): void {
+    this.users$ = this.userObservableService.deleteUser(user);
   }
 }

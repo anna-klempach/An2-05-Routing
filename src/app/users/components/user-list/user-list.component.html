@@ -2,6 +2,7 @@
   *ngFor="let user of users$ | async; trackBy: trackByFn"
   [user]="user"
   (editUser)="onEditUser($event)"
+  (deleteUser)="onDeleteUser($event)"
   [class.edited]="isEdited(user)"
 >
 </app-user>

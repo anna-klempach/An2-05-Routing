@@ -2,10 +2,10 @@ import {inject} from '@angular/core';
 import {ResolveFn} from '@angular/router';
 import {catchError, of, switchMap, take} from 'rxjs';
 import {UserModel} from '../models/user.model';
-import {UserArrayService} from '../services';
+import {UserObservableService} from '../services';
 
 export const editUserPageTitleResolver: ResolveFn<string> = (route, state) => {
-  const userArrayService = inject(UserArrayService);
+  const userObservableService = inject(UserObservableService);
 
   const defaultPageTitle = 'Edit User';
 
@@ -15,7 +15,7 @@ export const editUserPageTitleResolver: ResolveFn<string> = (route, state) => {
 
   const id = route.paramMap.get('userID')!;
 
-  return userArrayService.getUser(id).pipe(
+  return userObservableService.getUser(id).pipe(
     switchMap((user: UserModel) => {
       if (user) {
         return of(`${defaultPageTitle}: ${user.firstName} ${user.lastName}`);
