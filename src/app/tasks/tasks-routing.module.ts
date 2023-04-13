@@ -22,6 +22,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'add',
+    component: TaskFormComponent,
+  },
+  {
     path: 'edit/:taskID',
     component: TaskFormComponent,
   },
