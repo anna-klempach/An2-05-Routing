@@ -49,4 +49,15 @@ export class TaskPromiseService {
       .then((response) => response as TaskModel)
       .catch(this.handleError);
   }
+
+  deleteTask(task: TaskModel): Promise<unknown> {
+    const url = `${this.tasksUrl}/${task.id}`;
+    const request$ = this.http.delete(url);
+    return (
+      firstValueFrom(request$)
+        // json-server return empty object
+        // so we don't use .then(...)
+        .catch(this.handleError)
+    );
+  }
 }
