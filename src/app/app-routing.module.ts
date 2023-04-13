@@ -40,7 +40,7 @@ const routes: Routes = [
   {
     component: AbcComponent,
     matcher: (url: UrlSegment[], group: UrlSegmentGroup, route: Route): UrlMatchResult | null => {
-      console.log(url, group, route);
+      //console.log(url, group, route);
       // один фрагмент, который включает 'abc'
       return url.length === 1 && url[0].path.includes('abc') ? {consumed: url} : null;
     },

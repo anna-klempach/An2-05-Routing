@@ -1,20 +1,25 @@
 import {Injectable, Inject} from '@angular/core';
 import {
   HttpClient,
-  HttpHeaders,
-  type HttpResponse,
+  HttpContext,
+  HttpContextToken,
   type HttpErrorResponse,
 } from '@angular/common/http';
 import {type Observable, throwError, catchError, retry, share, concatMap} from 'rxjs';
 import {UsersAPI} from './../users.config';
 import {type UserModel} from './../models/user.model';
+
+export const interceptorTOKEN = new HttpContextToken(() => 'Some Default Value');
 @Injectable({
   providedIn: 'any',
 })
 export class UserObservableService {
   constructor(private http: HttpClient, @Inject(UsersAPI) private usersUrl: string) {}
   getUsers(): Observable<UserModel[]> {
-    return this.http.get<UserModel[]>(this.usersUrl).pipe(
+    const httpOptions = {
+      context: new HttpContext().set(interceptorTOKEN, 'Some Value'),
+    };
+    return this.http.get<UserModel[]>(this.usersUrl, httpOptions).pipe(
       retry(3),
       // in order not to create several subscriptions
       share(),
@@ -27,17 +32,11 @@ export class UserObservableService {
   }
   updateUser(user: UserModel): Observable<UserModel> {
     const url = `${this.usersUrl}/${user.id}`;
-    const options = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'}),
-    };
-    return this.http.put<UserModel>(url, user, options).pipe(catchError(this.handleError));
+    return this.http.put<UserModel>(url, user).pipe(catchError(this.handleError));
   }
   createUser(user: UserModel): Observable<UserModel> {
     const url = this.usersUrl;
-    const options = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'}),
-    };
-    return this.http.post<UserModel>(url, user, options).pipe(catchError(this.handleError));
+    return this.http.post<UserModel>(url, user).pipe(catchError(this.handleError));
   }
 
   deleteUser(user: UserModel): Observable<UserModel[]> {

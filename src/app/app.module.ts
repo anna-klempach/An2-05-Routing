@@ -10,6 +10,7 @@ import {TasksModule} from './tasks/tasks.module';
 import {SpinnerComponent} from './widgets';
 import {PageTitleStrategy} from './core';
 import {HttpClientModule} from '@angular/common/http';
+import {httpInterceptorProviders} from './core/interceptors';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,7 @@ import {HttpClientModule} from '@angular/common/http';
     // MUST BE LAST
     AppRoutingModule,
   ],
-  providers: [{provide: TitleStrategy, useClass: PageTitleStrategy}],
+  providers: [{provide: TitleStrategy, useClass: PageTitleStrategy}, httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {

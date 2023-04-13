@@ -35,7 +35,7 @@ export class AppComponent {
     console.log('Deactivated Component', $event, routerOutlet);
   }
   onRouterLinkActive($event: boolean): void {
-    console.log($event);
+    //console.log($event);
   }
   onDisplayMessages(): void {
     this.router.navigate([{outlets: {messages: ['messages']}}]);
